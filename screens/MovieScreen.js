@@ -75,7 +75,7 @@ const MovieScreen = () => {
             {/* Back button */}
             <View className='w-full'>
                 <SafeAreaView className={`z-20 absolute w-full flex-row justify-between items-center p-4 px-4 ${marginTop}`}>
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.background} className='rounded-xl bg-yellow-600 mb'>
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.background} className='rounded-xl bg-red-600 mb'>
                         <Ionicons name="caret-back-outline" size={28} color="white" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => toggleFavorite(!isFavorite)}>
