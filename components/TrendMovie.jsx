@@ -2,6 +2,7 @@
 import { View, Text, FlatList, Dimensions, Image, TouchableWithoutFeedback } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import { fallbaclMoviePoster, image500 } from '../api/movieDB';
 
 var {width, height} = Dimensions.get('window')
 
@@ -30,7 +31,7 @@ const TrendMovie = ({data}) => {
 
 
   return (
-    <View className='mb-8'>
+    <View className='mb-8 flex justify-center items-center'>
       <Text className='text-white text-xl mx-4 mb-4'>TrendMovie</Text>
 
       <FlatList
@@ -41,7 +42,8 @@ const TrendMovie = ({data}) => {
       renderItem={({ item }) => <MovieCard item={item} handleClik={handleClik}/>}
       keyExtractor={(item, index) => index.toString()}
       ref={flatListRef}
-      style={{width:width*0.62 , margin:6 , padding:6}}
+      style={{width, margin:6 , padding:6}}
+      className='mr-6'
     />
 
     </View>
@@ -54,15 +56,20 @@ export default TrendMovie
 
 const MovieCard=({item ,handleClik})=>{
     return(
+      <>
+      
         <TouchableWithoutFeedback onPress={()=>handleClik(item)}>
             <Image 
-            source={require('../assets/1.jpg')}
+                source={{uri:image500(item.poster_path) || fallbaclMoviePoster}}
                 style={{
-                    width:width*0.6,
+                    width:width,
                     height:height*0.4,
                     margin:6
                 }}
+                className='rounded-3xl'
             />
         </TouchableWithoutFeedback>
+        </>
+       
     )
 }

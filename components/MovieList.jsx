@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Ima
 import React from 'react'
 import { styles } from '../theme/theme'
 import { useNavigation } from '@react-navigation/native'
+import { image185 } from '../api/movieDB'
 
 var {width, height} = Dimensions.get('window')
 
@@ -35,12 +36,12 @@ const MovieList = ({title ,data, hideSeeAll}) => {
                     >
                   
                         <View className='mr-4 space-y-1'>
-                            <Image source={require('../assets/1.jpg')}
+                            <Image source={{uri:image185(item.poster_path)}}
                                     style={{width:width*0.33 , height:height*0.22}}
                                     className='rounded-3xl'
                             />
                             <Text className='text-neutral-300 ml-1'>{
-                                MovieName.length>14 ? MovieName.slice(0,14)+'...' :MovieName
+                                item.title.length>14 ? item.title.slice(0,14)+'...' : item.title
                                 }</Text>
                         </View>
                        

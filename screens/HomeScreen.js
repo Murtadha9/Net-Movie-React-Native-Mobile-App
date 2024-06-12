@@ -1,5 +1,5 @@
 import { View, Text, StatusBar, Platform, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { FontAwesome6 } from '@expo/vector-icons';
@@ -9,17 +9,46 @@ import TrendMovie from '../components/TrendMovie';
 import MovieList from '../components/MovieList';
 import { useNavigation } from '@react-navigation/native';
 import Loading from '../components/Loading';
+import { fetchTopRatedMovies, fetchTrendingMovies, fetchUpcomingMovies } from '../api/movieDB';
 
 
 const ios=Platform.OS === 'ios';
 const HomeScreen = () => {
 
 
-    const [trending,setTrending]=useState([1,2,3])
-    const [upcoming,setUpcoming]=useState([1,2,3])
-    const [topRated,setTopRated]=useState([1,2,3])
-    const [loading,setLoading]=useState(false)
+    const [trending,setTrending]=useState([])
+    const [upcoming,setUpcoming]=useState([])
+    const [topRated,setTopRated]=useState([])
+    const [loading,setLoading]=useState(true)
     const navigation=useNavigation()
+
+
+    useEffect(()=>{
+      getTrendingMovies();
+      getUpcomingMovies();
+      getTopRatedMovies();
+    },[])
+
+    const getTrendingMovies=async()=>{
+        const data= await fetchTrendingMovies()
+        if(data && data.results) setTrending(data.results)
+          setLoading(false)
+
+    }
+
+    const getUpcomingMovies=async()=>{
+      const data= await fetchUpcomingMovies()
+      if(data && data.results) setUpcoming(data.results)
+        setLoading(false)
+
+  }
+
+  const getTopRatedMovies=async()=>{
+    const data= await fetchTopRatedMovies()
+    if(data && data.results) setTopRated(data.results)
+      setLoading(false)
+
+}
 
   return (
     <View className='flex-1 bg-neutral-800 '>
@@ -45,13 +74,13 @@ const HomeScreen = () => {
             showsVerticalScrollIndicator={false}
       >
         {/*Trending Movie*/}
-        <TrendMovie data={trending}/>
+       {trending.length > 0 && <TrendMovie data={trending}/>}
 
         {/*Upcoming Movie row*/}    
-        <MovieList title='Upcoming' data={upcoming}/>
+       {upcoming.length>0 && <MovieList title='Upcoming' data={upcoming}/>}
 
         {/*Upcoming Movie row*/}    
-        <MovieList title='TopRated' data={topRated}/>
+        {topRated.length>0 && <MovieList title='TopRated' data={topRated}/>}
 
 
       </ScrollView>
