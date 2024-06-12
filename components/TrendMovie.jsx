@@ -13,7 +13,7 @@ const TrendMovie = ({data}) => {
   
     useEffect(() => {
       const interval = setInterval(() => {
-        currentIndex = (currentIndex + 1) % 3;
+        currentIndex = (currentIndex + 1) % 10;
         flatListRef.current?.scrollToIndex({
           index: currentIndex,
           animated: true,
@@ -25,9 +25,9 @@ const TrendMovie = ({data}) => {
 
 
     const navigation=useNavigation()
-    const handleClik = ({item}) => {
-      navigation.navigate('Movie' , item)
-    }
+    const handleClik = (item) => {
+      navigation.navigate('Movie', { item }); // Pass item as an object
+    };
 
 
   return (
